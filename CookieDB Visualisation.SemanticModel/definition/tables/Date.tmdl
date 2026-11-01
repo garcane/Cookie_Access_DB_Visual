@@ -1,0 +1,34 @@
+table Date
+	dataCategory: Time
+
+	column Date
+		dataType: dateTime
+		isKey
+		formatString: dd mmm yyyy
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Date]
+
+	column Year = YEAR('Date'[Date])
+		dataType: int64
+		formatString: 0
+		summarizeBy: none
+
+	column 'Month Key' = YEAR('Date'[Date]) * 100 + MONTH('Date'[Date])
+		dataType: int64
+		isHidden
+		formatString: 0
+		summarizeBy: none
+
+	column Month = FORMAT('Date'[Date], "mmm yyyy")
+		dataType: string
+		summarizeBy: none
+		sortByColumn: 'Month Key'
+
+	column 'Is Latest Month' = 'Date'[Month Key] = YEAR(MAX(Orders[Order Date])) * 100 + MONTH(MAX(Orders[Order Date]))
+		dataType: boolean
+		summarizeBy: none
+
+	partition Date = calculated
+		mode: import
+		source = CALENDAR(DATE(YEAR(MIN(Orders[Order Date])), MONTH(MIN(Orders[Order Date])), 1), EOMONTH(MAX(Orders[Order Date]), 0))

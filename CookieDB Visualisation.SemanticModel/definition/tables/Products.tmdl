@@ -1,52 +1,31 @@
 table Products
-	lineageTag: e79acfd8-d7c0-4022-85ef-01277d28545a
 
-	column ID
+	column 'Product ID'
 		dataType: int64
+		isHidden
 		formatString: 0
-		lineageTag: 64585da2-625e-4ba1-a243-d426993d72cf
 		summarizeBy: none
-		sourceColumn: ID
+		sourceColumn: product_id
 
-		annotation SummarizationSetBy = Automatic
-
-	column CookiesID
-		dataType: double
-		lineageTag: 6c84a845-d500-4ba0-9891-e5722e3d90d9
-		summarizeBy: none
-		sourceColumn: CookiesID
-
-		annotation SummarizationSetBy = Automatic
-
-		annotation PBI_FormatHint = {"isGeneralNumber":true}
-
-	column CookiesName
+	column 'Cookie Name'
 		dataType: string
-		lineageTag: b4c1146b-10d8-44bc-9ed0-e725ac196bfd
 		summarizeBy: none
-		sourceColumn: CookiesName
-
-		annotation SummarizationSetBy = Automatic
+		sourceColumn: cookie_name
 
 	column Price
 		dataType: decimal
-		formatString: "£"#,0.###############;-"£"#,0.###############;"£"#,0.###############
-		lineageTag: 32e35a1d-5626-463d-8960-b1956afc0c77
+		formatString: "£"#,0.00
 		summarizeBy: none
-		sourceColumn: Price
-
-		annotation SummarizationSetBy = Automatic
-
-		annotation PBI_FormatHint = {"currencyCulture":"en-GB"}
+		sourceColumn: price
 
 	partition Products = m
 		mode: import
 		source =
 				let
-				    Source = Access.Database(File.Contents("C:\Users\Student\Documents\JustIT Data Bootcamp\Cookie_Creations_Database_Project\Database_for_Cookie_Creations_Database_Project.accdb"), [CreateNavigationProperties=true]),
-				    _Products = Source{[Schema="",Item="Products"]}[Data]
+					Source = PostgreSQL.Database("localhost", "cookie_creations"),
+					products = Source{[Schema="public",Item="products"]}[Data],
+					Typed = Table.TransformColumnTypes(products, {{"price", Currency.Type}})
 				in
-				    _Products
+					Typed
 
 	annotation PBI_ResultType = Table
-

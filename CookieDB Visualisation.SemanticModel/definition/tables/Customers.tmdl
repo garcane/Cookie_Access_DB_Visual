@@ -1,107 +1,73 @@
 table Customers
-	lineageTag: 86fbc5ab-adc1-4882-bae4-0a3eb09d3c76
 
-	measure Target_measure = 70000
-		formatString: \$#,0.###############;(\$#,0.###############);\$#,0.###############
-		lineageTag: 88113198-1281-466e-8c53-6f086a7f8989
-
-	column ID
+	column 'Customer ID'
 		dataType: int64
+		isHidden
 		formatString: 0
-		lineageTag: c954bf43-13c7-4597-b724-8d4509803b2e
 		summarizeBy: none
-		sourceColumn: ID
-
-		annotation SummarizationSetBy = Automatic
+		sourceColumn: customer_id
 
 	column 'First Name'
 		dataType: string
-		lineageTag: a3b1b9e9-a671-4e04-808a-f5c76dd99464
 		summarizeBy: none
-		sourceColumn: First Name
-
-		annotation SummarizationSetBy = Automatic
+		sourceColumn: first_name
 
 	column 'Last Name'
 		dataType: string
-		lineageTag: 7bcde3fd-daa6-456c-ac65-fd8775d836a3
 		summarizeBy: none
-		sourceColumn: Last Name
-
-		annotation SummarizationSetBy = Automatic
+		sourceColumn: last_name
 
 	column 'Email Address'
 		dataType: string
-		lineageTag: 95af4ce1-edfd-4c5d-9a70-6e4afc3da09d
 		summarizeBy: none
-		sourceColumn: Email Address
-
-		annotation SummarizationSetBy = Automatic
+		sourceColumn: email_address
 
 	column Phone
 		dataType: string
-		lineageTag: d1a2ec15-23a1-459e-aede-4f2c7fe4d0ec
 		summarizeBy: none
-		sourceColumn: Phone
-
-		annotation SummarizationSetBy = Automatic
+		sourceColumn: phone
 
 	column Address
 		dataType: string
-		lineageTag: 006e9684-18d7-40a8-b6cc-45ee6b5cf05a
 		summarizeBy: none
-		sourceColumn: Address
-
-		annotation SummarizationSetBy = Automatic
+		sourceColumn: address
 
 	column City
 		dataType: string
-		lineageTag: 406ddcab-831b-4ef3-8795-1403d335bedc
 		summarizeBy: none
-		sourceColumn: City
-
-		annotation SummarizationSetBy = Automatic
+		sourceColumn: city
 
 	column State
 		dataType: string
-		lineageTag: 1aa3d13c-4500-4252-8299-fd539d4f0437
 		summarizeBy: none
-		sourceColumn: State
-
-		annotation SummarizationSetBy = Automatic
+		sourceColumn: state
 
 	column Zip
 		dataType: string
-		lineageTag: ebb76d2c-93ff-4cb4-8b35-8b8f35079b1e
 		summarizeBy: none
-		sourceColumn: Zip
-
-		annotation SummarizationSetBy = Automatic
+		sourceColumn: zip
 
 	column Country
 		dataType: string
-		lineageTag: 58f519c0-6ba0-486b-aed7-95258a56dafd
 		summarizeBy: none
-		sourceColumn: Country
-
-		annotation SummarizationSetBy = Automatic
+		sourceColumn: country
 
 	column Notes
 		dataType: string
-		lineageTag: 763b3ede-1aa3-4ae8-9547-0ee5b62b5f04
 		summarizeBy: none
-		sourceColumn: Notes
+		sourceColumn: notes
 
-		annotation SummarizationSetBy = Automatic
+	column 'Customer Name' = Customers[First Name] & " " & Customers[Last Name]
+		dataType: string
+		summarizeBy: none
 
 	partition Customers = m
 		mode: import
 		source =
 				let
-				    Source = Access.Database(File.Contents("C:\Users\Student\Documents\JustIT Data Bootcamp\Cookie_Creations_Database_Project\Database_for_Cookie_Creations_Database_Project.accdb"), [CreateNavigationProperties=true]),
-				    _Customers = Source{[Schema="",Item="Customers"]}[Data]
+					Source = PostgreSQL.Database("localhost", "cookie_creations"),
+					customers = Source{[Schema="public",Item="customers"]}[Data]
 				in
-				    _Customers
+					customers
 
 	annotation PBI_ResultType = Table
-

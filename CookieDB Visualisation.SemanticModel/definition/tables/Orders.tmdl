@@ -1,0 +1,96 @@
+table Orders
+
+	measure 'Total Revenue' = SUM(Orders[Revenue])
+		formatString: "£"#,0.00
+
+	measure 'Order Count' = COUNTROWS(Orders)
+		formatString: #,0
+
+	measure 'Cookies Sold' = SUM(Orders[Cookies Ordered])
+		formatString: #,0
+
+	measure 'Average Order Value' = DIVIDE([Total Revenue], [Order Count])
+		formatString: "£"#,0.00
+
+	measure 'Unfilled Orders' = CALCULATE([Order Count], Orders[Order Filled] = FALSE()) + 0
+		formatString: #,0
+
+	measure 'Unfilled Revenue' = CALCULATE([Total Revenue], Orders[Order Filled] = FALSE()) + 0
+		formatString: "£"#,0.00
+
+	measure 'Fill Rate' = DIVIDE([Order Count] - [Unfilled Orders], [Order Count])
+		formatString: 0.0%
+
+	measure 'Revenue Target' = 70000
+		formatString: "£"#,0
+
+	measure 'Latest Month Revenue' = CALCULATE([Total Revenue], 'Date'[Is Latest Month] = TRUE()) + 0
+		formatString: "£"#,0.00
+
+	measure 'Latest Month Orders' = CALCULATE([Order Count], 'Date'[Is Latest Month] = TRUE()) + 0
+		formatString: #,0
+
+	column 'Order ID'
+		dataType: int64
+		formatString: 0
+		summarizeBy: none
+		sourceColumn: order_id
+
+	column 'Customer ID'
+		dataType: int64
+		isHidden
+		formatString: 0
+		summarizeBy: none
+		sourceColumn: customer_id
+
+	column 'Product ID'
+		dataType: int64
+		isHidden
+		formatString: 0
+		summarizeBy: none
+		sourceColumn: product_id
+
+	column 'Order Date'
+		dataType: dateTime
+		formatString: dd mmm yyyy
+		summarizeBy: none
+		sourceColumn: order_date
+
+	column 'Cookies Ordered'
+		dataType: int64
+		formatString: #,0
+		summarizeBy: sum
+		sourceColumn: cookies_ordered
+
+	column 'Price Per Cookie'
+		dataType: decimal
+		formatString: "£"#,0.00
+		summarizeBy: none
+		sourceColumn: price_per_cookie
+
+	column Revenue
+		dataType: decimal
+		formatString: "£"#,0.00
+		summarizeBy: sum
+		sourceColumn: revenue
+
+	column 'Order Filled'
+		dataType: boolean
+		summarizeBy: none
+		sourceColumn: order_filled
+
+	column 'Order Status' = IF(Orders[Order Filled], "Filled", "Unfilled")
+		dataType: string
+		summarizeBy: none
+
+	partition Orders = m
+		mode: import
+		source =
+				let
+					Source = PostgreSQL.Database("localhost", "cookie_creations"),
+					orders = Source{[Schema="public",Item="orders"]}[Data],
+					Typed = Table.TransformColumnTypes(orders, {{"order_date", type date}, {"price_per_cookie", Currency.Type}, {"revenue", Currency.Type}})
+				in
+					Typed
+
+	annotation PBI_ResultType = Table
