@@ -1,56 +1,57 @@
 {
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.14.0/schema.json",
-  "name": "044da35d430468387b36",
+  "name": "06e1a7dbad9b0e0d1981",
   "position": {
-    "x": 911.77270246580781,
-    "y": 0,
-    "z": 0,
-    "height": 182.8964559181041,
-    "width": 368.50248896092086,
-    "tabOrder": 0
+    "x": 16,
+    "y": 96,
+    "z": 1000,
+    "height": 104,
+    "width": 196,
+    "tabOrder": 1000
   },
   "visual": {
-    "visualType": "slicer",
+    "visualType": "card",
     "query": {
       "queryState": {
         "Values": {
           "projections": [
             {
               "field": {
-                "Column": {
+                "Measure": {
                   "Expression": {
                     "SourceRef": {
-                      "Entity": "Products"
+                      "Entity": "Orders"
                     }
                   },
-                  "Property": "CookiesName"
+                  "Property": "Total Revenue"
                 }
               },
-              "queryRef": "Products.CookiesName",
-              "nativeQueryRef": "CookiesName",
-              "active": true
+              "queryRef": "Orders.Total Revenue",
+              "nativeQueryRef": "Total Revenue"
             }
           ]
         }
       }
     },
-    "objects": {
-      "data": [
+    "visualContainerObjects": {
+      "title": [
         {
           "properties": {
-            "mode": {
+            "show": {
               "expr": {
                 "Literal": {
-                  "Value": "'Basic'"
+                  "Value": "true"
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Total revenue'"
                 }
               }
             }
           }
-        }
-      ],
-      "general": [
-        {
-          "properties": {}
         }
       ]
     },

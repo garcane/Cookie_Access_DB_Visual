@@ -1,13 +1,13 @@
 {
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.14.0/schema.json",
-  "name": "50fc6650ae1136065d0b",
+  "name": "cf27093e17f1b13b0e53",
   "position": {
-    "x": 631.33147005804824,
-    "y": 0,
-    "z": 9000,
-    "height": 119.22139348735675,
-    "width": 279.08644384540327,
-    "tabOrder": 9000
+    "x": 16,
+    "y": 16,
+    "z": 0,
+    "height": 64,
+    "width": 300,
+    "tabOrder": 0
   },
   "visual": {
     "visualType": "slicer",
@@ -20,14 +20,14 @@
                 "Column": {
                   "Expression": {
                     "SourceRef": {
-                      "Entity": "Order"
+                      "Entity": "Products"
                     }
                   },
-                  "Property": "Order Date"
+                  "Property": "Cookie Name"
                 }
               },
-              "queryRef": "Order.Order Date",
-              "nativeQueryRef": "Order Date",
+              "queryRef": "Products.Cookie Name",
+              "nativeQueryRef": "Cookie Name",
               "active": true
             }
           ]
@@ -40,16 +40,15 @@
               "Column": {
                 "Expression": {
                   "SourceRef": {
-                    "Entity": "Order"
+                    "Entity": "Products"
                   }
                 },
-                "Property": "Order Date"
+                "Property": "Cookie Name"
               }
             },
             "direction": "Ascending"
           }
-        ],
-        "isDefaultSort": true
+        ]
       }
     },
     "objects": {
@@ -59,7 +58,29 @@
             "mode": {
               "expr": {
                 "Literal": {
-                  "Value": "'Between'"
+                  "Value": "'Dropdown'"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "visualContainerObjects": {
+      "title": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Cookie'"
                 }
               }
             }
