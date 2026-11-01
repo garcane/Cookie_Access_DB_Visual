@@ -1,0 +1,12 @@
+relationship 6f3d2c1a-8b4e-4f0a-9c7d-1e2f3a4b5c01
+	fromColumn: Orders.'Customer ID'
+	toColumn: Customers.'Customer ID'
+
+relationship 6f3d2c1a-8b4e-4f0a-9c7d-1e2f3a4b5c02
+	fromColumn: Orders.'Product ID'
+	toColumn: Products.'Product ID'
+
+relationship 6f3d2c1a-8b4e-4f0a-9c7d-1e2f3a4b5c03
+	fromColumn: Orders.'Order Date'
+	toColumn: Date.Date
+
