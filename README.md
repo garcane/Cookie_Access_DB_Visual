@@ -1,20 +1,19 @@
 # Cookie Creations: Sales Database and Dashboard
 
-Sales data for a fictional cookie business. The data started out in Microsoft Access. It now lives in PostgreSQL, and two dashboards are built on top of it: an HTML page and a Power BI report.
+Sales data for a fictional cookie business. The data started out in Microsoft Access. It now lives in PostgreSQL, and a Power BI report is built on top of it.
 
 ```
 archive/*.accdb ──► scripts/migrate_access_to_postgres.py ──► PostgreSQL: cookie_creations
                                                                  ├─ public.customers / products / orders
                                                                  └─ analysis.* views (the five business questions)
                                                                         │
-                        ┌───────────────────────────────────────────────┴──────────────┐
-                        ▼                                                              ▼
-         scripts/build_html_dashboard.py → dashboard/index.html        CookieDB Visualisation.pbip (Power BI)
+                                                                        ▼
+                                                     CookieDB Visualisation.pbip (Power BI)
 ```
 
-## What the dashboards answer
+## What the dashboard answers
 
-Each page answers one of the original analysis questions. The SQL behind each answer is a view in `sql/02_analysis_views.sql`.
+The Power BI report has five pages, and each one answers one of the original analysis questions. The SQL behind each answer is a view in `sql/02_analysis_views.sql`.
 
 | Page | Question | View |
 |---|---|---|
@@ -33,10 +32,7 @@ Headline figures: £47,536.26 revenue from 100 orders by 46 of 50 customers. Sug
 | `sql/01_schema.sql` | Postgres schema: `customers`, `products`, `orders` with primary and foreign keys |
 | `sql/02_analysis_views.sql` | The five analysis queries as views in the `analysis` schema |
 | `scripts/migrate_access_to_postgres.py` | Reads the Access database and rebuilds `cookie_creations` (schema, data, views) |
-| `scripts/build_html_dashboard.py` | Queries Postgres and writes `dashboard/index.html` |
-| `dashboard/template.html` | HTML dashboard layout; `index.html` is generated from it |
 | `CookieDB Visualisation.pbip` | Power BI project (model in `.SemanticModel/`, report in `.Report/`), connected to Postgres |
-| `CookieDB Visualisation.pbix` | The original Power BI file, built on Access/Excel (superseded by the `.pbip`) |
 | `archive/` | The original Access database and its Excel exports (see below) |
 
 ## Getting started
@@ -53,12 +49,7 @@ Postgres credentials come from the usual libpq settings: `PGHOST`, `PGPORT`, `PG
    ```
    uv run scripts/migrate_access_to_postgres.py
    ```
-2. **Build the HTML dashboard**, then open `dashboard/index.html` in a browser:
-   ```
-   uv run scripts/build_html_dashboard.py
-   ```
-   The page is a snapshot of the data. Re-run the script after the data changes.
-3. **Open the Power BI report.**
+2. **Open the Power BI report.**
    - Open `CookieDB Visualisation.pbip` and click **Refresh**.
    - Sign in with a Postgres database login.
    - If your local server has SSL turned off, accept the unencrypted-connection prompt.
@@ -100,4 +91,4 @@ The Access queries were plain joins with no grouping or filtering. That is why e
 
 ## Tools
 
-Microsoft Access, PostgreSQL, Python (uv, psycopg, pyodbc), HTML/CSS/JavaScript, Power BI (Power Query, DAX, PBIP/TMDL).
+Microsoft Access, PostgreSQL, Python (uv, psycopg, pyodbc), Power BI (Power Query, DAX, PBIP/TMDL).
