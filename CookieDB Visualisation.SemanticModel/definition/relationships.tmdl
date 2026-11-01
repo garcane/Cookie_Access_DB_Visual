@@ -1,0 +1,25 @@
+relationship daec4c9a-7f7e-407d-a4ae-21c85a2f119a
+	joinOnDateBehavior: datePartOnly
+	fromColumn: 'What are the details of orders placed in the last month'.'Order Date'
+	toColumn: LocalDateTable_83671b26-79e8-4825-b010-79e76f262205.Date
+
+relationship ef2606d9-2a66-4c3b-ae17-fb9f6a040875
+	joinOnDateBehavior: datePartOnly
+	fromColumn: 'Which orders have not been filled?'.'Order Date'
+	toColumn: LocalDateTable_7a9eac9f-7655-4525-85db-da90e1ece1fc.Date
+
+relationship 18c61210-60b4-4976-b6fa-53056a0e3801
+	joinOnDateBehavior: datePartOnly
+	fromColumn: Order.'Order Date'
+	toColumn: LocalDateTable_b74fda72-1fc2-4c5e-b26f-0a60ff66feb7.Date
+
+relationship fc3ff960-6f60-45e6-9e75-84617206d111
+	fromColumn: Order.'Customer ID'
+	toColumn: Customers.ID
+
+	annotation PBI_IsFromSource = FS
+
+relationship 3d2a66bb-735e-6298-f34f-dc05f362c9bc
+	fromColumn: Order.'Product ID'
+	toColumn: Products.ID
+

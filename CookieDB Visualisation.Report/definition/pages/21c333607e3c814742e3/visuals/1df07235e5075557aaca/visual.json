@@ -1,0 +1,66 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.14.0/schema.json",
+  "name": "1df07235e5075557aaca",
+  "position": {
+    "x": 280.44123240775963,
+    "y": 0,
+    "z": 6000,
+    "height": 117.86660492500042,
+    "width": 350.89023765028861,
+    "tabOrder": 6000
+  },
+  "visual": {
+    "visualType": "card",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Aggregation": {
+                  "Expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "Order"
+                        }
+                      },
+                      "Property": "Cookies Ordered"
+                    }
+                  },
+                  "Function": 0
+                }
+              },
+              "queryRef": "Sum(Order.Cookies Ordered)",
+              "nativeQueryRef": "Sum of Cookies Ordered"
+            }
+          ]
+        }
+      },
+      "sortDefinition": {
+        "sort": [
+          {
+            "field": {
+              "Aggregation": {
+                "Expression": {
+                  "Column": {
+                    "Expression": {
+                      "SourceRef": {
+                        "Entity": "Order"
+                      }
+                    },
+                    "Property": "Cookies Ordered"
+                  }
+                },
+                "Function": 0
+              }
+            },
+            "direction": "Descending"
+          }
+        ],
+        "isDefaultSort": true
+      }
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

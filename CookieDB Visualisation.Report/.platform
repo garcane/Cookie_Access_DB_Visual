@@ -1,0 +1,11 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "Report",
+    "displayName": "CookieDB Visualisation"
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "169f754c-7c33-47ec-8c51-94b638e894fb"
+  }
+}

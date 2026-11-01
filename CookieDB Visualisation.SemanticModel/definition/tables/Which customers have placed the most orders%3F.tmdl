@@ -1,0 +1,49 @@
+table 'Which customers have placed the most orders?'
+	lineageTag: c7887838-cee5-49a7-abb0-c1f9b5a8fa43
+
+	column ID
+		dataType: int64
+		formatString: 0
+		lineageTag: b21eb24e-e74c-4e2f-a20c-58de4aa84d9b
+		summarizeBy: count
+		sourceColumn: ID
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'First Name'
+		dataType: string
+		lineageTag: cdfd8f04-ec1d-49a6-9c11-561d64a1e0df
+		summarizeBy: none
+		sourceColumn: First Name
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Last Name'
+		dataType: string
+		lineageTag: 6489b54d-4a3d-4b85-854b-c82d4006c1c3
+		summarizeBy: none
+		sourceColumn: Last Name
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Cookies Ordered'
+		dataType: double
+		lineageTag: 7b750f7c-d125-4669-b1be-82d46d3303d3
+		summarizeBy: sum
+		sourceColumn: Cookies Ordered
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	partition 'Which customers have placed the most orders?' = m
+		mode: import
+		source =
+				let
+				    Source = Access.Database(File.Contents("C:\Users\Student\Documents\JustIT Data Bootcamp\Cookie_Creations_Database_Project\Database_for_Cookie_Creations_Database_Project.accdb"), [CreateNavigationProperties=true]),
+				    #"_Which customers have placed the most orders?" = Source{[Schema="",Item="Which customers have placed the most orders?"]}[Data]
+				in
+				    #"_Which customers have placed the most orders?"
+
+	annotation PBI_ResultType = Table
+

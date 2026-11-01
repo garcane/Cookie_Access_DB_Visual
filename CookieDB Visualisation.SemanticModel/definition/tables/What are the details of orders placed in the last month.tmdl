@@ -1,0 +1,73 @@
+table 'What are the details of orders placed in the last month'
+	lineageTag: 60ae8f37-8ecb-4929-b122-1261bcf3c76e
+
+	column 'Order Date'
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: 185de6cb-3dd0-45a6-951f-63d9f0de170e
+		summarizeBy: none
+		sourceColumn: Order Date
+
+		variation Variation
+			isDefault
+			relationship: daec4c9a-7f7e-407d-a4ae-21c85a2f119a
+			defaultHierarchy: LocalDateTable_83671b26-79e8-4825-b010-79e76f262205.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+	column CookiesName
+		dataType: string
+		lineageTag: ad413052-b3e7-42c7-a8e2-f4369c5dbcaa
+		summarizeBy: none
+		sourceColumn: CookiesName
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Cookies Ordered'
+		dataType: double
+		lineageTag: 540cf2c5-22b1-49f7-b657-799659a93c7b
+		summarizeBy: sum
+		sourceColumn: Cookies Ordered
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Price
+		dataType: decimal
+		formatString: "£"#,0.###############;-"£"#,0.###############;"£"#,0.###############
+		lineageTag: 9bd34aca-db90-465a-a1d7-012a863a0921
+		summarizeBy: sum
+		sourceColumn: Price
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-GB"}
+
+	column City
+		dataType: string
+		lineageTag: a7cd59f0-e602-42b5-907c-406c21a3b4de
+		summarizeBy: none
+		sourceColumn: City
+
+		annotation SummarizationSetBy = Automatic
+
+	column Address
+		dataType: string
+		lineageTag: 3d7bddda-0c47-4d3d-9f56-87020a11b12a
+		summarizeBy: none
+		sourceColumn: Address
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'What are the details of orders placed in the last month' = m
+		mode: import
+		source =
+				let
+				    Source = Access.Database(File.Contents("C:\Users\Student\Documents\JustIT Data Bootcamp\Cookie_Creations_Database_Project\Database_for_Cookie_Creations_Database_Project.accdb"), [CreateNavigationProperties=true]),
+				    #"_What are the details of orders placed in the last month" = Source{[Schema="",Item="What are the details of orders placed in the last month"]}[Data]
+				in
+				    #"_What are the details of orders placed in the last month"
+
+	annotation PBI_ResultType = Table
+
