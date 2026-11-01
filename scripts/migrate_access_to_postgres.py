@@ -7,7 +7,7 @@
 Usage (from the repo root):
     uv run --native-tls scripts/migrate_access_to_postgres.py
 
-Reads Database_for_Cookie_Creations_Database_Project.accdb through the 64-bit
+Reads archive/Database_for_Cookie_Creations_Database_Project.accdb through the 64-bit
 Microsoft Access ODBC driver, (re)creates the cookie_creations database schema from
 sql/01_schema.sql, loads the data, then creates the analysis views from
 sql/02_analysis_views.sql.
@@ -25,7 +25,7 @@ import pyodbc
 from psycopg import sql
 
 ROOT = Path(__file__).resolve().parents[1]
-ACCDB = ROOT / "Database_for_Cookie_Creations_Database_Project.accdb"
+ACCDB = ROOT / "archive" / "Database_for_Cookie_Creations_Database_Project.accdb"
 TARGET_DB = os.environ.get("COOKIE_DB", "cookie_creations")
 
 os.environ.setdefault("PGHOST", "localhost")
