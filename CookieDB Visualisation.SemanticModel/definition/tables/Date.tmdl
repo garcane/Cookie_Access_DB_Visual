@@ -1,10 +1,12 @@
 table Date
+	lineageTag: e2b01bc2-00f9-4ca9-8c7d-dc675822eb6b
 	dataCategory: Time
 
 	column Date
 		dataType: dateTime
 		isKey
 		formatString: dd mmm yyyy
+		lineageTag: c5f666de-43bc-47fc-9bf2-c173a4a4ccc7
 		summarizeBy: none
 		isNameInferred
 		sourceColumn: [Date]
@@ -12,23 +14,28 @@ table Date
 	column Year = YEAR('Date'[Date])
 		dataType: int64
 		formatString: 0
+		lineageTag: 8d27d8c5-c7b0-445d-b654-d74579498d3d
 		summarizeBy: none
 
 	column 'Month Key' = YEAR('Date'[Date]) * 100 + MONTH('Date'[Date])
 		dataType: int64
 		isHidden
 		formatString: 0
+		lineageTag: a1508f07-2d63-4e08-aa39-fd1628ad1aae
 		summarizeBy: none
 
 	column Month = FORMAT('Date'[Date], "mmm yyyy")
 		dataType: string
+		lineageTag: 0f8d00f1-c31d-430e-8b34-30fec530fa0e
 		summarizeBy: none
 		sortByColumn: 'Month Key'
 
 	column 'Is Latest Month' = 'Date'[Month Key] = YEAR(MAX(Orders[Order Date])) * 100 + MONTH(MAX(Orders[Order Date]))
 		dataType: boolean
+		lineageTag: 94a228b5-a4b0-4862-b01e-0fd77dd366d6
 		summarizeBy: none
 
 	partition Date = calculated
 		mode: import
 		source = CALENDAR(DATE(YEAR(MIN(Orders[Order Date])), MONTH(MIN(Orders[Order Date])), 1), EOMONTH(MAX(Orders[Order Date]), 0))
+

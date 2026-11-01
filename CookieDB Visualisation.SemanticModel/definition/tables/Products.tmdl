@@ -1,20 +1,24 @@
 table Products
+	lineageTag: 02c88f25-d2e9-4571-aebe-2ca889783936
 
 	column 'Product ID'
 		dataType: int64
 		isHidden
 		formatString: 0
+		lineageTag: fb313948-0833-447c-ab32-95757b7698b8
 		summarizeBy: none
 		sourceColumn: product_id
 
 	column 'Cookie Name'
 		dataType: string
+		lineageTag: 03d2eaae-7326-47fd-b3a2-651df349c9fb
 		summarizeBy: none
 		sourceColumn: cookie_name
 
 	column Price
 		dataType: decimal
 		formatString: "£"#,0.00
+		lineageTag: e7581498-7435-4009-b194-b4f0850d3c55
 		summarizeBy: none
 		sourceColumn: price
 
@@ -29,3 +33,4 @@ table Products
 					Typed
 
 	annotation PBI_ResultType = Table
+

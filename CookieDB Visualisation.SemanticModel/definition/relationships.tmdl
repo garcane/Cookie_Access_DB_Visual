@@ -8,4 +8,5 @@ relationship 6f3d2c1a-8b4e-4f0a-9c7d-1e2f3a4b5c02
 
 relationship 6f3d2c1a-8b4e-4f0a-9c7d-1e2f3a4b5c03
 	fromColumn: Orders.'Order Date'
-	toColumn: 'Date'.Date
+	toColumn: Date.Date
+

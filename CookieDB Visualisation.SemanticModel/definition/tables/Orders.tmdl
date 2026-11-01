@@ -1,38 +1,138 @@
 table Orders
+	lineageTag: fd7c22f6-1a70-49a0-a677-1dea550465b1
 
 	measure 'Total Revenue' = SUM(Orders[Revenue])
 		formatString: "£"#,0.00
+		lineageTag: d4adbb2a-9872-4041-b094-420d9b31bd29
 
 	measure 'Order Count' = COUNTROWS(Orders)
 		formatString: #,0
+		lineageTag: 3da6ad74-4dd5-414a-ab33-fb5f3ff9fa67
 
 	measure 'Cookies Sold' = SUM(Orders[Cookies Ordered])
 		formatString: #,0
+		lineageTag: 3e4473b4-b9ea-41f5-a4e0-1f06bd4ee10b
 
 	measure 'Average Order Value' = DIVIDE([Total Revenue], [Order Count])
 		formatString: "£"#,0.00
+		lineageTag: 4796725c-bde5-48a5-8a7e-4a61d594774c
 
 	measure 'Unfilled Orders' = CALCULATE([Order Count], Orders[Order Filled] = FALSE()) + 0
 		formatString: #,0
+		lineageTag: e6a79e6b-b8e4-4a4e-bdf4-f35d1583eee3
 
 	measure 'Unfilled Revenue' = CALCULATE([Total Revenue], Orders[Order Filled] = FALSE()) + 0
 		formatString: "£"#,0.00
+		lineageTag: 8169c7ad-a3c8-4771-8cc0-96332553f327
 
 	measure 'Fill Rate' = DIVIDE([Order Count] - [Unfilled Orders], [Order Count])
 		formatString: 0.0%
+		lineageTag: 620d2b7f-d5dc-4b9f-9d5f-e4dd05de0531
 
 	measure 'Revenue Target' = 70000
 		formatString: "£"#,0
+		lineageTag: 17c1bb53-0aba-459a-b9b4-b9d212e0ea2c
 
 	measure 'Latest Month Revenue' = CALCULATE([Total Revenue], 'Date'[Is Latest Month] = TRUE()) + 0
 		formatString: "£"#,0.00
+		lineageTag: 5cfa18a6-4021-4e2f-a346-3d14e406e1e8
 
 	measure 'Latest Month Orders' = CALCULATE([Order Count], 'Date'[Is Latest Month] = TRUE()) + 0
 		formatString: #,0
+		lineageTag: e2cd9b95-c728-458d-ab67-dccfcf4dcb50
+
+	measure 'Revenue Remaining' = [Revenue Target] - [Total Revenue]
+		formatString: "£"#,0.00
+		lineageTag: 42b44725-d470-4bfc-8e46-b2ee75362784
+
+	measure 'Target Progress' = DIVIDE([Total Revenue], [Revenue Target])
+		formatString: 0.0%
+		lineageTag: c05cd230-5115-40aa-bb2e-e08c42419cfd
+
+	measure 'Revenue Share' = DIVIDE([Total Revenue], CALCULATE([Total Revenue], REMOVEFILTERS(Products)))
+		formatString: 0.0%
+		lineageTag: 2490d44a-69c2-4cbf-82c5-ec4dd9a1002e
+
+	measure 'Top Cookie' = MAXX(TOPN(1, VALUES(Products[Cookie Name]), [Total Revenue]), Products[Cookie Name])
+		lineageTag: 8c4c4e2c-7971-48d4-b071-03ef82a03fb0
+
+	measure 'Top Cookie Revenue' = MAXX(VALUES(Products[Cookie Name]), [Total Revenue])
+		formatString: "£"#,0.00
+		lineageTag: c3c721b3-b787-48dc-a59a-e3e670f02400
+
+	measure 'Top Cookie Share' = DIVIDE([Top Cookie Revenue], [Total Revenue])
+		formatString: 0.0%
+		lineageTag: a17f0021-787d-4e1e-b7ec-96ee3002e609
+
+	measure 'Active Customers' = DISTINCTCOUNT(Orders[Customer ID])
+		formatString: #,0
+		lineageTag: be24dc49-feb1-4479-9ec5-a06681e8ce2b
+
+	measure 'Top Customer' = MAXX(TOPN(1, VALUES(Customers[Customer Name]), [Total Revenue]), Customers[Customer Name])
+		lineageTag: da79c8a8-85c1-4af6-976b-ebc598fc7339
+
+	measure 'Revenue per Active Customer' = DIVIDE([Total Revenue], [Active Customers])
+		formatString: "£"#,0.00
+		lineageTag: bdbd1635-2e08-4a18-9ccb-9c8a999e8833
+
+	measure 'Orders per Active Customer' = DIVIDE([Order Count], [Active Customers])
+		formatString: 0.0
+		lineageTag: bb4f2193-8b8b-4b3a-8a7a-c5a41970b393
+
+	measure 'Order Rank' = IF(HASONEVALUE(Customers[Customer Name]), RANKX(ALLSELECTED(Customers[Customer Name]), [Order Count], , DESC, SKIP))
+		formatString: 0
+		lineageTag: f7a370cd-a78e-4113-b8f5-aff85348cf1b
+
+	measure 'Oldest Unfilled' = CALCULATE(MIN(Orders[Order Date]), Orders[Order Filled] = FALSE())
+		formatString: dd mmm yyyy
+		lineageTag: 1cfd5dfa-5798-4632-a8d0-b6ff135481aa
+
+	measure 'Latest Month Cookies' = CALCULATE([Cookies Sold], 'Date'[Is Latest Month] = TRUE()) + 0
+		formatString: #,0
+		lineageTag: 91bb0271-c9da-4f93-a045-643a744f40da
+
+	measure 'Latest Month Unfilled' = CALCULATE([Unfilled Orders], 'Date'[Is Latest Month] = TRUE()) + 0
+		formatString: #,0
+		lineageTag: faeb1915-71d5-4e1b-8b93-d1350260c92f
+
+	measure 'Latest Month Label' =
+			
+			VAR LastDateInContext =
+			    CALCULATE ( MAX ( Orders[Order Date] ), ALLSELECTED ( Orders[Order Date] ) )
+			VAR LastDayOfMonth =
+			    EOMONTH ( LastDateInContext, 0 )
+			VAR MonthStart =
+			    EOMONTH ( LastDateInContext, -1 ) + 1
+			RETURN
+			    FORMAT ( MonthStart, "mmm yyyy" ) & " (1-" & DAY ( LastDayOfMonth ) & ")"
+		lineageTag: 3036819e-2efb-4938-a83c-0bd7b0ddee30
+
+	measure 'Prior Period Revenue' =
+			
+			VAR LastDateInContext =
+			    CALCULATE ( MAX ( Orders[Order Date] ), ALLSELECTED ( Orders[Order Date] ) )
+			VAR StartDate =
+			    EOMONTH ( LastDateInContext, -2 ) + 1   -- first day of the prior month
+			VAR EndDate =
+			    EOMONTH ( LastDateInContext, -1 )       -- last day  of the prior month
+			RETURN
+			    CALCULATE (
+			        [Total Revenue],
+			        REMOVEFILTERS ( 'Date'[Date] ),
+			        'Date'[Date] >= StartDate,
+			        'Date'[Date] <= EndDate
+			    ) + 0
+		formatString: "£"#,0.00
+		lineageTag: 24f27ee4-da80-4160-92e8-1aa97836708f
+
+	measure 'Revenue Change vs Prior' = DIVIDE([Latest Month Revenue] - [Prior Period Revenue], [Prior Period Revenue])
+		formatString: +0.0%;-0.0%;0.0%
+		lineageTag: 0afa1d3f-0594-42d7-827c-cad2e735131e
 
 	column 'Order ID'
 		dataType: int64
 		formatString: 0
+		lineageTag: 6427166e-5856-43c7-85e0-768f339f45e0
 		summarizeBy: none
 		sourceColumn: order_id
 
@@ -40,6 +140,7 @@ table Orders
 		dataType: int64
 		isHidden
 		formatString: 0
+		lineageTag: 32a3f59f-e357-4ff1-8fda-995b5a75344f
 		summarizeBy: none
 		sourceColumn: customer_id
 
@@ -47,40 +148,49 @@ table Orders
 		dataType: int64
 		isHidden
 		formatString: 0
+		lineageTag: a7ea9bda-4ec5-4d05-912a-95ddb56e52a2
 		summarizeBy: none
 		sourceColumn: product_id
 
 	column 'Order Date'
 		dataType: dateTime
 		formatString: dd mmm yyyy
+		lineageTag: 1b3e3533-be7d-4ce3-8d5b-684aa8f51fc6
 		summarizeBy: none
 		sourceColumn: order_date
+
+		annotation UnderlyingDateTimeDataType = Date
 
 	column 'Cookies Ordered'
 		dataType: int64
 		formatString: #,0
+		lineageTag: e43848f2-543f-4cc2-aaa6-8b4fcf924e5f
 		summarizeBy: sum
 		sourceColumn: cookies_ordered
 
 	column 'Price Per Cookie'
 		dataType: decimal
 		formatString: "£"#,0.00
+		lineageTag: 6e04af70-e664-4271-88e4-d39503edf170
 		summarizeBy: none
 		sourceColumn: price_per_cookie
 
 	column Revenue
 		dataType: decimal
 		formatString: "£"#,0.00
+		lineageTag: 3d814eb6-dd07-48db-a2e7-baa9352f6672
 		summarizeBy: sum
 		sourceColumn: revenue
 
 	column 'Order Filled'
 		dataType: boolean
+		lineageTag: 59ea7444-f644-4235-a8c2-dc505e4537d0
 		summarizeBy: none
 		sourceColumn: order_filled
 
 	column 'Order Status' = IF(Orders[Order Filled], "Filled", "Unfilled")
 		dataType: string
+		lineageTag: 6b0152a9-4215-4af2-8904-f0dbe3450b29
 		summarizeBy: none
 
 	partition Orders = m
@@ -94,3 +204,4 @@ table Orders
 					Typed
 
 	annotation PBI_ResultType = Table
+

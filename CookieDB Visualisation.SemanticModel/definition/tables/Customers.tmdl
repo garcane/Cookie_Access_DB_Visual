@@ -1,64 +1,77 @@
 table Customers
+	lineageTag: b07d034d-546b-4bf3-a359-5d83ec95f2e6
 
 	column 'Customer ID'
 		dataType: int64
 		isHidden
 		formatString: 0
+		lineageTag: 6eb9a329-3a68-4e43-9f2d-9666f3da4a5f
 		summarizeBy: none
 		sourceColumn: customer_id
 
 	column 'First Name'
 		dataType: string
+		lineageTag: 84525cf6-0e7d-4107-8263-791f336dfe44
 		summarizeBy: none
 		sourceColumn: first_name
 
 	column 'Last Name'
 		dataType: string
+		lineageTag: bd785cae-d644-4b8b-8a17-2e75dc49bacf
 		summarizeBy: none
 		sourceColumn: last_name
 
 	column 'Email Address'
 		dataType: string
+		lineageTag: 4aa6c96d-8207-4864-8c24-5bad86b87b5f
 		summarizeBy: none
 		sourceColumn: email_address
 
 	column Phone
 		dataType: string
+		lineageTag: d8d341a2-a9f6-4f7e-a4ce-b7f1d7a71262
 		summarizeBy: none
 		sourceColumn: phone
 
 	column Address
 		dataType: string
+		lineageTag: 0d0b6851-7ffe-47e2-952d-2300aa518a69
 		summarizeBy: none
 		sourceColumn: address
 
 	column City
 		dataType: string
+		lineageTag: e04ff503-6ad7-4a17-bcc9-25c8eb11f590
 		summarizeBy: none
 		sourceColumn: city
 
 	column State
 		dataType: string
+		lineageTag: ebf510e6-a437-4ef1-b691-d09ce8624e2e
 		summarizeBy: none
 		sourceColumn: state
 
 	column Zip
 		dataType: string
+		lineageTag: e0552cae-7842-4e1b-b655-27958df8b6d2
 		summarizeBy: none
 		sourceColumn: zip
 
 	column Country
 		dataType: string
+		lineageTag: 7d0a723b-3e93-4a53-ab14-7a0907712634
 		summarizeBy: none
 		sourceColumn: country
 
 	column Notes
 		dataType: string
+		lineageTag: da5fd6c7-b030-48e9-b7a7-7af3df890b1f
 		summarizeBy: none
 		sourceColumn: notes
 
 	column 'Customer Name' = Customers[First Name] & " " & Customers[Last Name]
 		dataType: string
+		lineageTag: 0162db58-be3c-4006-8472-8f92a95aa872
 		summarizeBy: none
 
 	partition Customers = m
@@ -71,3 +84,4 @@ table Customers
 					customers
 
 	annotation PBI_ResultType = Table
+

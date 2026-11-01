@@ -2,22 +2,22 @@
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/report/3.3.0/schema.json",
   "themeCollection": {
     "baseTheme": {
-      "name": "CY24SU06",
+      "name": "Fluent2-CY26SU10",
       "reportVersionAtImport": {
-        "visual": "1.8.92",
-        "report": "2.0.92",
-        "page": "1.3.92"
+        "visual": "2.14.0",
+        "report": "3.4.0",
+        "page": "2.3.1"
       },
       "type": "SharedResources"
     },
     "customTheme": {
-      "name": "Bloom",
+      "name": "CookieCreations.json",
       "reportVersionAtImport": {
         "visual": "1.8.92",
         "report": "2.0.92",
         "page": "1.3.92"
       },
-      "type": "SharedResources"
+      "type": "RegisteredResources"
     }
   },
   "objects": {
@@ -54,14 +54,20 @@
       "type": "SharedResources",
       "items": [
         {
-          "name": "Bloom",
-          "path": "BuiltInThemes/Bloom.json",
-          "type": "CustomTheme"
-        },
-        {
-          "name": "CY24SU06",
-          "path": "BaseThemes/CY24SU06.json",
+          "name": "Fluent2-CY26SU10",
+          "path": "BaseThemes/Fluent2-CY26SU10.json",
           "type": "BaseTheme"
+        }
+      ]
+    },
+    {
+      "name": "RegisteredResources",
+      "type": "RegisteredResources",
+      "items": [
+        {
+          "name": "CookieCreations.json",
+          "path": "CookieCreations.json",
+          "type": "CustomTheme"
         }
       ]
     }
